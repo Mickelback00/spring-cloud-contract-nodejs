@@ -11,9 +11,9 @@ Book =require('./models/book');
 
 // Connect to Mongoose
 var mongooseConnection='mongodb://localhost/bookstore'
-if (process.env.VCAP_SERVICES != "") {
+if (process.env.VCAP_SERVICES) {
 	var vcap_services = JSON.parse(process.env.VCAP_SERVICES)
-	var uri = vcap_services.sc_contract_nodejs_mongo[0].credentials.uri
+	var uri = vcap_services.mongodb[0].credentials.uri
 	mongooseConnection=uri
 }
 mongoose.connect(mongooseConnection);
@@ -112,5 +112,6 @@ app.delete('/api/books/:_id', (req, res) => {
 	});
 });
 
-app.listen(process.env.PORT || 3000);
-console.log('Running on port 3000...');
+let port = process.env.PORT || 3000
+app.listen(port);
+console.log('Running on port ' + port);
