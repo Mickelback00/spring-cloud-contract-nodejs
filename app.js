@@ -13,8 +13,9 @@ Book =require('./models/book');
 var mongooseConnection='mongodb://localhost/bookstore'
 if (process.env.VCAP_SERVICES) {
 	var vcap_services = JSON.parse(process.env.VCAP_SERVICES)
-	var uri = vcap_services.mongodb[0].credentials.uri
-	mongooseConnection=uri
+	// we're connecting to MLAB's CF
+	var uri = vcap_services.mlab[0].credentials.uri
+	mongooseConnection = uri
 }
 mongoose.connect(mongooseConnection);
 var db = mongoose.connection;
